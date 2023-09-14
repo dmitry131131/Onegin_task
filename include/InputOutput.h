@@ -4,10 +4,10 @@
 */
 
 struct textData {
-    char*  bufferName;
     size_t bufferSize;
-    char** linesPtr;
     size_t linesCount;
+    char*  bufferName;
+    char** linesPtr;
 };
 
 size_t get_file_size(FILE* file);
