@@ -144,3 +144,14 @@ int get_lines(struct textData* text)
 
     return 0;
 }
+
+int output_text(const struct textData* text)
+{
+    assert(1);
+    for(size_t i = 0; i < text->linesCount; i++)
+    {
+        puts(text->linesPtr[i]);
+    }
+
+    return 0;
+}

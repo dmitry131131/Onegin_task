@@ -6,7 +6,7 @@
 struct textData {
     char*  bufferName;
     size_t bufferSize;
-    char**  linesPtr;
+    char** linesPtr;
     size_t linesCount;
 };
 
@@ -23,3 +23,5 @@ int remove_text(struct textData* text);
 int get_text(const char* const fileName, struct textData* text);
 
 int char_replace(char* buffer, char findSym, char repSym);
+
+int output_text(const struct textData* text);

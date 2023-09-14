@@ -9,7 +9,7 @@ int main()
 
     get_text("t.txt", &text);
 
-    printf("%s\n", text.linesPtr[1]);
+    output_text(&text);
 
     remove_text(&text);
 
