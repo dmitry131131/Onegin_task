@@ -12,7 +12,7 @@ int main()
 
     output_text(&text);
 
-    qsort(text.linesPtr, text.linesCount, sizeof(char*), cmp_strings);
+    choice_sort(text.linesPtr, text.linesCount);
 
     printf("\n");
 

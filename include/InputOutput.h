@@ -3,11 +3,12 @@
  * @brief Input output functions
 */
 
+/// @brief text struct with data about text
 struct textData {
-    size_t bufferSize;
-    size_t linesCount;
-    char*  bufferName;
-    char** linesPtr;
+    size_t bufferSize;  ///< Size of text buffer
+    size_t linesCount;  ///< Count of lines in text
+    char*  bufferName;  ///< Name of buffer
+    char** linesPtr;    ///< Name of lines array
 };
 
 size_t get_file_size(FILE* file);
