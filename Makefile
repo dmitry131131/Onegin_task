@@ -17,7 +17,7 @@ BuildPrefix = build/
 BuildFolder = build
 IncludePrefix = include
 
-Sources = InputOutput.cpp
+Sources = InputOutput.cpp Sorts.cpp
 Main = main.cpp
 
 .PHONY : all clean folder
