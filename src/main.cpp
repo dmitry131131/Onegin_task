@@ -18,6 +18,12 @@ int main()
 
     output_text(&text);
 
+    printf("\n");
+
+    choice_sort_reverse(text.linesPtr, text.linesCount);
+
+    output_text(&text);
+
     remove_text(&text);
 
     return 0;
