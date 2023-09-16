@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "Error.h"
 #include "InputOutput.h"
 #include "Sorts.h"
 
@@ -23,7 +24,7 @@ int main()
     choice_sort_reverse(text.linesPtr, text.linesCount);
 
     output_text(&text);
-
+    
     remove_text(&text);
 
     return 0;

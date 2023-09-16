@@ -7,69 +7,89 @@
 #include <stdlib.h>
 #include <assert.h>
 
+#include "Error.h"
 #include "InputOutput.h"
 
-int get_text(const char* const fileName, struct textData* text)
+enum errorCode get_text(const char* const fileName, struct textData* text)
 {
     FILE* file = fopen(fileName, "r");
-    if (!file) return 1;
+    if (!file) return FILE_NOT_OPENED;
 
-    text->bufferSize = get_file_size(file) + 2;
+    enum errorCode error = NO_ERRORS;
+    text->bufferSize = get_file_size(file, &error) + 2;
 
-    if (!(text->bufferSize)) return 2;
+    if (error) return error;
 
-    text->bufferName = get_file(file, text->bufferSize - 2);
+    text->bufferName = get_file(file, text->bufferSize - 2, &error);
 
-    text->linesCount = char_count(text->bufferName, '\n');
+    if (error) return error;
 
-    get_lines(text);
+    text->linesCount = char_count(text->bufferName, '\n', &error);
 
-    char_replace(text->bufferName, '\n', '\0');
+    if (error) return error;
 
-    return 0;
+    error = get_lines(text);
+
+    if (error) return error;
+
+    error = char_replace(text->bufferName, '\n', '\0');
+
+    if (error) return error;
+
+    return NO_ERRORS;
 }
 
-int remove_text(struct textData* text)
+enum errorCode remove_text(struct textData* text)
 {
+    if (!text) return NO_TEXT_STRUCT;
+
     text->bufferSize = 0;
     text->linesCount = 0;
     free(text->bufferName);
     free(text->linesPtr);
 
-    return 0;
+    return NO_ERRORS;
 }
 
-size_t get_file_size(FILE* file)
+size_t get_file_size(FILE* file, enum errorCode* errorPtr = NULL)
 {
-    if (!file) return 0;
+    if (!file)
+    {
+        if (!errorPtr) *errorPtr = FILE_NOT_OPENED;
+        return 0;
+    }
 
     struct stat buff = {};
 
-    if (fstat(fileno(file), &buff)) return 0;
+    if (fstat(fileno(file), &buff))
+    {
+        if (!errorPtr) *errorPtr = FILE_BAD_DESCRIPTOR;
+        return 0;
+    }
 
     if (buff.st_size < 0) return 0;
 
     return buff.st_size;
 }
 
-char* get_file(FILE* file, size_t fileSize)
+char* get_file(FILE* file, size_t fileSize, enum errorCode* errorPtr = NULL)
 {
     if (!file)
     {
-        //printf("No file!\n");
+        if (!errorPtr) *errorPtr = FILE_NOT_OPENED;
         return NULL;
     }
 
     if (!fileSize)
     {
-        //printf("File size in 0!\n");
+        if (!errorPtr) *errorPtr = FILE_SIZE_ZERO;
         return NULL;
     }
 
     char* buffer = (char*) calloc(fileSize + 2, sizeof(char));
     if (!buffer)
     {
-        //printf("Can't alloc the memory!\n");
+        if (!errorPtr) *errorPtr = NO_MEMORY;
         return NULL;
     }
 
@@ -77,7 +97,7 @@ char* get_file(FILE* file, size_t fileSize)
 
     if (ferror(file))
     {
-        //printf("Error in file!\n");
+        if (!errorPtr) *errorPtr = ERROR_IN_FILE;
         free(buffer);
         return NULL;
     }
@@ -92,9 +112,12 @@ char* get_file(FILE* file, size_t fileSize)
     return NULL;
 }
 
-int char_replace(char* buffer, char findSym, char repSym)
+enum errorCode char_replace(char* buffer, char findSym, char repSym)
 {
-    if (!buffer) return 1;
+    if (!buffer)
+    {
+        return NO_BUFFER;
+    }
 
     while (*buffer != '\0')
     {
@@ -106,15 +129,17 @@ int char_replace(char* buffer, char findSym, char repSym)
         buffer++;
     }
 
-    return 0;
+    return NO_ERRORS;
 }
 
-size_t char_count(const char* buffer, char ch)
+size_t char_count(const char* buffer, char ch, enum errorCode* errorPtr = NULL)
 {
     if (!buffer) 
     {
+        if (!errorPtr) *errorPtr = NO_BUFFER;
         return 0;
     }
+    
     size_t count = 0;
 
     while (*(buffer++) != '\0')
@@ -125,10 +150,13 @@ size_t char_count(const char* buffer, char ch)
     return count;
 }
 
-int get_lines(struct textData* text)
+enum errorCode get_lines(struct textData* text)
 {
+    if (!text) return NO_TEXT_STRUCT;
+
     text->linesPtr = (char**) calloc(text->linesCount + 1, sizeof(char*));
-    if (!text) return 1;
+
+    if (!text->linesPtr) return NO_MEMORY;
 
     text->linesPtr[0] = text->bufferName;
     size_t lineNumber = 1;
@@ -142,16 +170,17 @@ int get_lines(struct textData* text)
         }
     }
 
-    return 0;
+    return NO_ERRORS;
 }
 
-int output_text(const struct textData* text)
+enum errorCode output_text(const struct textData* text)
 {
-    assert(1);
+    if (!text) return NO_TEXT_STRUCT;
+
     for(size_t i = 0; i < text->linesCount; i++)
     {
         puts(text->linesPtr[i]);
     }
 
-    return 0;
+    return NO_ERRORS;
 }
