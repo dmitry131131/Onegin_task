@@ -9,42 +9,63 @@ int main()
 {
     struct textData text = {};
     enum errorCode err = NO_ERRORS;
-    do{
 
-        err = get_text("t.txt", &text);
+    err = get_text("t.txt", &text);
 
-        if (err) break;
+    if (err) 
+    {
+        RETURN_E_MAIN;
+    }
 
-        err = output_text(&text);
+    err = output_text(&text);
 
-        if (err) break;
+    if (err) 
+    {
+        RETURN_E_MAIN;
+    }
 
-        choice_sort(text.linesPtr, text.linesCount);
+    err = choice_sort(text.linesPtr, text.linesCount);
 
-        printf("\n");
+    if (err) 
+    {
+        RETURN_E_MAIN;
+    }
 
-        err = output_text(&text);
+    printf("\n");
 
-        if (err) break;
+    err = output_text(&text);
 
-        printf("\n");
+    if (err) 
+    {
+        RETURN_E_MAIN;
+    }
 
-        choice_sort_reverse(text.linesPtr, text.linesCount);
+    printf("\n");
 
-        err = output_text(&text);
+    err = choice_sort_reverse(text.linesPtr, text.linesCount);
 
-        if (err) break;
+    if (err) 
+    {
+        RETURN_E_MAIN;
+    }
 
-        printf("\n");
+    err = output_text(&text);
 
-        err = print_buffer(&text);
+    if (err) 
+    {
+        RETURN_E_MAIN;
+    }
 
-        if (err) break;
+    printf("\n");
 
-    } while(0);
+    err = print_buffer(&text);
+
+    if (err) 
+    {
+        RETURN_E_MAIN;
+    }
 
     print_error(stdout, err);
-    
     remove_text(&text);
 
     return 0;

@@ -44,8 +44,8 @@ enum errorCode choice_sort_reverse(char** array, size_t count)
 
         if (!min_ptr) return NO_BUFFER;
 
-        *(array + i) = *min_ptr;
-        *min_ptr     = temp;
+        array[i] = *min_ptr;
+        *min_ptr = temp;
     }
 
     return NO_ERRORS;
@@ -70,11 +70,15 @@ char** min_string(char** array, size_t size)
 char** min_string_reverse(char** array, size_t size)
 {
     if (!array) return NULL;
+    int cmp = 0;
 
     char** min = array;
     for (size_t i = 0; i < size; i++)
     {
-        if (strcmp_reverse(array[i], *min) < 0)
+        cmp = strcmp_reverse(array[i], *min);
+        
+        if (cmp == 2) return NULL;
+        if (cmp < 0)
         {
             min = array + i;
         }
@@ -85,6 +89,8 @@ char** min_string_reverse(char** array, size_t size)
 
 int strcmp_reverse(const char* s1, const char* s2)
 {
+    if (!s1 || !s2) return 2;
+
     size_t len1 = 0, len2 = 0, min = 0;
 
     while (*s1 != '\0')
@@ -107,15 +113,10 @@ int strcmp_reverse(const char* s1, const char* s2)
     for (size_t i = 0; i < min; i++)
     {
         if (*s1 < *s2) return -1;
-        if (*s1 > *s2) return 1;
-        s1--;
-        s2--;
+        if (*s1-- > *s2--) return 1;
     }
 
-    if (len1 > len2) return 1;
-    else if (len1 < len2) return -1;
-
-    return 0;
+    return len1 < len2 ? -1 : len1 > len2;
 }
 
 char* str_reverse(char* string)

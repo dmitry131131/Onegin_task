@@ -16,27 +16,39 @@ enum errorCode get_text(const char* const fileName, struct textData* text)
     FILE* file = fopen(fileName, "r");
     if (!file) return FILE_NOT_OPENED;
 
+    if (!text) return NO_TEXT_STRUCT;
+
     enum errorCode error = NO_ERRORS;
-    do{
-        text->bufferSize = get_file_size(file, &error) + 2;
 
-        if (error) break;
+    text->bufferSize = get_file_size(file, &error) + 2;
 
-        text->bufferName = get_file(file, text, &error);
+    if (error) 
+    {
+        RETURN_E_FUNC;
+    }
 
-        if (error) break;
+    text->bufferName = get_file(file, text, &error);
 
-        text->linesCount = char_count(text, '\n', &error);
+    if (error) 
+    {
+        RETURN_E_FUNC;
+    }
 
-        if (error) break;
+    text->linesCount = char_count(text, '\n', &error);
 
-        error = get_lines(text);
+    if (error) 
+    {
+        RETURN_E_FUNC;
+    }
 
-        if (error) break;
+    error = get_lines(text);
 
-        error = char_replace(text->bufferName, '\n', '\0');
+    if (error) 
+    {
+        RETURN_E_FUNC;
+    }
 
-    } while(0);
+    error = char_replace(text->bufferName, '\n', '\0');
 
     fclose(file);
     return error;

@@ -16,4 +16,17 @@ enum errorCode {
     NO_TEXT_STRUCT
 };
 
+#define RETURN_E_MAIN do{           \
+    print_error(stdout, err);       \
+    remove_text(&text);             \
+    return 0;                       \
+} while(0)
+
+
+#define RETURN_E_FUNC do{           \
+    fclose(file);                   \
+    return error;                   \
+} while(0)
+
+
 #endif
