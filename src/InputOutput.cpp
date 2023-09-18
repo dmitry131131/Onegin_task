@@ -90,7 +90,7 @@ char* get_file(FILE* file, struct textData* text, enum errorCode* errorPtr)
         return NULL;
     }
 
-    text->bufferSize = fread(buffer, sizeof(char), text->bufferSize + 1, file);
+    text->bufferSize = fread(buffer, sizeof(char), text->bufferSize + 1, file) + 1;
 
     if (ferror(file))
     {
@@ -183,6 +183,23 @@ enum errorCode output_text(const struct textData* text)
     for(size_t i = 0; i < text->linesCount; i++)
     {
         puts(text->linesPtr[i]);
+    }
+
+    return NO_ERRORS;
+}
+
+enum errorCode print_buffer(struct textData* text)
+{
+    if (!text) return NO_TEXT_STRUCT;
+
+    for (size_t i = 0; i < text->bufferSize; i++)
+    {
+        if (text->bufferName[i] == '\0')
+        {
+            putchar('\n');
+            continue;
+        }
+        putchar(text->bufferName[i]);
     }
 
     return NO_ERRORS;

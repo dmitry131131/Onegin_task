@@ -48,4 +48,6 @@ enum errorCode output_text(const struct textData* text);
 
 void print_error(FILE* stream, enum errorCode error);
 
+enum errorCode print_buffer(struct textData* text);
+
 #endif

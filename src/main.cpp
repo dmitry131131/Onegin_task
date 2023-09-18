@@ -35,6 +35,12 @@ int main()
 
         if (err) break;
 
+        printf("\n");
+
+        err = print_buffer(&text);
+
+        if (err) break;
+
     } while(0);
 
     print_error(stdout, err);
