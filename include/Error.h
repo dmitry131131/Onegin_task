@@ -16,16 +16,26 @@ enum errorCode {
     NO_TEXT_STRUCT
 };
 
-#define RETURN_E_MAIN do{           \
-    print_error(stdout, err);       \
-    remove_text(&text);             \
-    return 0;                       \
+#define CHECK_ERR_MAIN(code) do{    \
+    err = code;                     \
+                                    \
+    if (err)                        \
+    {                               \
+        print_error(stdout, err);   \
+        remove_text(&text);         \
+        return 0;                   \
+    }                               \
 } while(0)
 
 
-#define RETURN_E_FUNC do{           \
-    fclose(file);                   \
-    return error;                   \
+#define CHECK_ERR_FUNC(code) do{    \
+    enum errorCode err = code;      \
+                                    \
+    if (err)                        \
+    {                               \
+        fclose(file);               \
+        return error;               \
+    }                               \
 } while(0)
 
 

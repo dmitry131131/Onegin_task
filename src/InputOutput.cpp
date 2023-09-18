@@ -22,31 +22,17 @@ enum errorCode get_text(const char* const fileName, struct textData* text)
 
     text->bufferSize = get_file_size(file, &error) + 2;
 
-    if (error) 
-    {
-        RETURN_E_FUNC;
-    }
+    CHECK_ERR_FUNC(error);
 
     text->bufferName = get_file(file, text, &error);
 
-    if (error) 
-    {
-        RETURN_E_FUNC;
-    }
+    CHECK_ERR_FUNC(error);
 
     text->linesCount = char_count(text, '\n', &error);
 
-    if (error) 
-    {
-        RETURN_E_FUNC;
-    }
+    CHECK_ERR_FUNC(error);
 
-    error = get_lines(text);
-
-    if (error) 
-    {
-        RETURN_E_FUNC;
-    }
+    CHECK_ERR_FUNC(get_lines(text));
 
     error = char_replace(text->bufferName, '\n', '\0');
 
@@ -225,37 +211,37 @@ void print_error(FILE* stream, enum errorCode error)
         break;
 
     case FILE_NOT_OPENED:
-        color_fprintf(COLOR_RED, STYLE_BOLD, stream, "Error: ");
+        color_fprintf(stream, COLOR_RED, STYLE_BOLD, "Error: ");
         fprintf(stream, "File not opened!\n");
         break;
     
     case FILE_BAD_DESCRIPTOR:
-        color_fprintf(COLOR_RED, STYLE_BOLD, stream, "Error: ");
+        color_fprintf(stream, COLOR_RED, STYLE_BOLD, "Error: ");
         fprintf(stream, "File bad descriptor!\n");
         break;
     
     case FILE_SIZE_ZERO:
-        color_fprintf(COLOR_RED, STYLE_BOLD, stream, "Error: ");
+        color_fprintf(stream, COLOR_RED, STYLE_BOLD, "Error: ");
         fprintf(stream, "File size is zero!\n");
         break;
 
     case NO_MEMORY:
-        color_fprintf(COLOR_RED, STYLE_BOLD, stream, "Error: ");
+        color_fprintf(stream, COLOR_RED, STYLE_BOLD, "Error: ");
         fprintf(stream, "Can't alloc memory!\n");
         break;
 
     case ERROR_IN_FILE:
-        color_fprintf(COLOR_RED, STYLE_BOLD, stream, "Error: ");
+        color_fprintf(stream, COLOR_RED, STYLE_BOLD, "Error: ");
         fprintf(stream, "File had opened, but found error in file!\n");
         break;
 
     case NO_BUFFER:
-        color_fprintf(COLOR_RED, STYLE_BOLD, stream, "Error: ");
+        color_fprintf(stream, COLOR_RED, STYLE_BOLD, "Error: ");
         fprintf(stream, "No buffer or buffer pointer is NULL!\n");
         break;
 
     case NO_TEXT_STRUCT:
-        color_fprintf(COLOR_RED, STYLE_BOLD, stream, "Error: ");
+        color_fprintf(stream, COLOR_RED, STYLE_BOLD, "Error: ");
         fprintf(stream, "No text struct or text pointer is NULL!\n");
         break;
 
