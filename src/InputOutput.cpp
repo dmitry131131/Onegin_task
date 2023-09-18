@@ -22,11 +22,11 @@ enum errorCode get_text(const char* const fileName, struct textData* text)
 
         if (error) break;
 
-        text->bufferName = get_file(file, text->bufferSize - 2, &error);
+        text->bufferName = get_file(file, text, &error);
 
         if (error) break;
 
-        text->linesCount = char_count(text->bufferName, '\n', &error);
+        text->linesCount = char_count(text, '\n', &error);
 
         if (error) break;
 
@@ -54,7 +54,7 @@ enum errorCode remove_text(struct textData* text)
     return NO_ERRORS;
 }
 
-size_t get_file_size(FILE* file, enum errorCode* errorPtr = NULL)
+size_t get_file_size(FILE* file, enum errorCode* errorPtr)
 {
     if (!file)
     {
@@ -75,28 +75,22 @@ size_t get_file_size(FILE* file, enum errorCode* errorPtr = NULL)
     return buff.st_size;
 }
 
-char* get_file(FILE* file, size_t fileSize, enum errorCode* errorPtr = NULL)
+char* get_file(FILE* file, struct textData* text, enum errorCode* errorPtr)
 {
-    if (!file)
+    if (!text)
     {
-        if (!errorPtr) *errorPtr = FILE_NOT_OPENED;
+        if (!errorPtr) *errorPtr = NO_TEXT_STRUCT;
         return NULL;
     }
 
-    if (!fileSize)
-    {
-        if (!errorPtr) *errorPtr = FILE_SIZE_ZERO;
-        return NULL;
-    }
-
-    char* buffer = (char*) calloc(fileSize + 2, sizeof(char));
+    char* buffer = (char*) calloc(text->bufferSize + 2, sizeof(char));
     if (!buffer)
     {
         if (!errorPtr) *errorPtr = NO_MEMORY;
         return NULL;
     }
 
-    fread(buffer, sizeof(char), fileSize + 1, file);
+    text->bufferSize = fread(buffer, sizeof(char), text->bufferSize + 1, file);
 
     if (ferror(file))
     {
@@ -107,7 +101,7 @@ char* get_file(FILE* file, size_t fileSize, enum errorCode* errorPtr = NULL)
 
     if (feof(file))
     {
-        buffer[fileSize] = '\n';
+        buffer[text->bufferSize] = '\n';
         return buffer;
     }
 
@@ -135,9 +129,15 @@ enum errorCode char_replace(char* buffer, char findSym, char repSym)
     return NO_ERRORS;
 }
 
-size_t char_count(const char* buffer, char ch, enum errorCode* errorPtr = NULL)
+size_t char_count(const struct textData* text, char ch, enum errorCode* errorPtr)
 {
-    if (!buffer) 
+    if (!text) 
+    {
+        if (!errorPtr) *errorPtr = NO_TEXT_STRUCT;
+        return 0;
+    }
+
+    if (!text->bufferName)
     {
         if (!errorPtr) *errorPtr = NO_BUFFER;
         return 0;
@@ -145,9 +145,9 @@ size_t char_count(const char* buffer, char ch, enum errorCode* errorPtr = NULL)
     
     size_t count = 0;
 
-    while (*(buffer++) != '\0')
+    for (size_t i = 0; i < text->bufferSize; i++)
     {
-        if (*buffer == ch) count++;
+        if (text->bufferName[i] == ch) count++;
     }
     
     return count;

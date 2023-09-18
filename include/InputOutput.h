@@ -17,21 +17,21 @@ struct textData {
  * @param [in] file pointer to file
  * @return size of file
 */
-size_t get_file_size(FILE* file, enum errorCode* errorPtr);
+size_t get_file_size(FILE* file, enum errorCode* errorPtr = NULL);
 /**
  * @brief Input text from file
  * @param [in] file     pointer to file
  * @param [in] fileSize size of file
  * @return pointer to text buffer
 */
-char* get_file(FILE* file, size_t fileSize, enum errorCode* errorPtr);
+char* get_file(FILE* file, struct textData* text, enum errorCode* errorPtr = NULL);
 /**
  * @brief Function counts number of occurrences ch in buffer
  * @param [in] buffer text line
  * @param [in] ch     char
  * @return number of occurrences ch in buffer
 */
-size_t char_count(const char* buffer, char ch, enum errorCode* errorPtr);
+size_t char_count(const struct textData* text, char ch, enum errorCode* errorPtr = NULL);
 /**
  * @brief function cut buffer on lines
  * @param [in,out] text text struct
