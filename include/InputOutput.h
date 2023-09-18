@@ -37,17 +37,44 @@ size_t char_count(const struct textData* text, char ch, enum errorCode* errorPtr
  * @param [in,out] text text struct
 */
 enum errorCode get_lines(struct textData* text);
-
+/**
+ * @brief Function free alloced memory and clean text struct
+ * @param [in,out] text text struct
+ * @return Error code
+*/
 enum errorCode remove_text(struct textData* text);
-
+/**
+ * @brief Function open file and read it in text struct
+ * @param [in]  fileName file name
+ * @param [out] text text struct
+ * @return Error code
+*/
 enum errorCode get_text(const char* const fileName, struct textData* text);
-
+/**
+ * @brief Function replace chars in buffer
+ * @param [out] buffer  text buffer
+ * @param [in]  findSym replaced value
+ * @param [in]  repSym  target value
+ * @return Error code
+*/
 enum errorCode char_replace(char* buffer, char findSym, char repSym);
-
+/**
+ * @brief Function output text
+ * @param [in] text text struct
+ * @return Error code 
+*/
 enum errorCode output_text(const struct textData* text);
-
+/**
+ * @brief Function print error value
+ * @param [in] stream output stream
+ * @param [in] error  error code
+*/
 void print_error(FILE* stream, enum errorCode error);
-
-enum errorCode print_buffer(struct textData* text);
+/**
+ * @brief Function print text buffer
+ * @param [in] text text buffer
+ * @return Error code
+*/
+enum errorCode print_buffer(const struct textData* text);
 
 #endif

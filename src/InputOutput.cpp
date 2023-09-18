@@ -188,7 +188,7 @@ enum errorCode output_text(const struct textData* text)
     return NO_ERRORS;
 }
 
-enum errorCode print_buffer(struct textData* text)
+enum errorCode print_buffer(const struct textData* text)
 {
     if (!text) return NO_TEXT_STRUCT;
 
