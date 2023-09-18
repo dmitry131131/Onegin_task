@@ -15,10 +15,12 @@ TARGET = main
 SourcePrefix = src/
 BuildPrefix = build/
 BuildFolder = build
-IncludePrefix = include
+Include = -Iinclude -IColor_console_output/include
 
 Sources = InputOutput.cpp Sorts.cpp
 Main = main.cpp
+
+LibObjects = Color_console_output/build/Color_output.o
 
 .PHONY : all clean folder
 
@@ -30,13 +32,15 @@ MainObject = $(patsubst %.cpp, $(BuildPrefix)%.o, $(Main))
 objects = $(patsubst $(SourcePrefix)%.cpp, $(BuildPrefix)%.o, $(Source))
 
 $(BuildPrefix)%.o : $(SourcePrefix)%.cpp
+	cd Color_console_output && make
+
 	@echo [CXX] -c $< -o $@
-	@$(CXX) $(CXXFLAGS) -I$(IncludePrefix) -c $< -o $@
+	@$(CXX) $(CXXFLAGS) $(Include) -c $< -o $@
 
 
-$(TARGET) : $(objects) $(MainObject)
+$(TARGET) : $(objects) $(MainObject) $(LibObjects)
 	@echo [CC] $^ -o $@
-	@$(CXX) $(CXXFLAGS) -I$(IncludePrefix) $^ -o $@
+	@$(CXX) $(CXXFLAGS) $(Include) $^ -o $@
 
 clean :
 	rm $(TARGET) $(BuildFolder)/*.o

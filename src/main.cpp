@@ -8,8 +8,11 @@
 int main()
 {
     struct textData text = {};
+    enum errorCode err = NO_ERRORS;
 
-    get_text("t.txt", &text);
+    err = get_text("t.txxt", &text);
+
+    print_error(stdout, err);
 
     output_text(&text);
 

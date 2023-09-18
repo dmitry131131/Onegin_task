@@ -2,6 +2,8 @@
  * @file
  * @brief Error handling functions structs and enums
 */
+#ifndef ERROR_H
+#define ERROR_H
 
 enum errorCode {
     NO_ERRORS,
@@ -13,3 +15,4 @@ enum errorCode {
     NO_BUFFER,
     NO_TEXT_STRUCT
 };
+#endif

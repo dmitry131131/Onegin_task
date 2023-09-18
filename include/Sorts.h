@@ -2,6 +2,8 @@
  * @file
  * @brief Sort functions
 */
+#ifndef SORTS_H
+#define SORTS_H
 
 /**
  * @brief Comparator for strings
@@ -48,3 +50,5 @@ char** min_string_reverse(char** array, size_t size);
  * @param [in]     count count of lines
 */
 void choice_sort_reverse(char** array, size_t count);
+
+#endif

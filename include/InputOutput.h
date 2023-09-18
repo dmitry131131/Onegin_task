@@ -2,6 +2,8 @@
  * @file
  * @brief Input output functions
 */
+#ifndef INPUT_OUTPUT_H
+#define INPUT_OUTPUT_H
 
 /// @brief text struct with data about text
 struct textData {
@@ -43,3 +45,7 @@ enum errorCode get_text(const char* const fileName, struct textData* text);
 enum errorCode char_replace(char* buffer, char findSym, char repSym);
 
 enum errorCode output_text(const struct textData* text);
+
+void print_error(FILE* stream, enum errorCode error);
+
+#endif

@@ -9,6 +9,7 @@
 
 #include "Error.h"
 #include "InputOutput.h"
+#include "Color_output.h"
 
 enum errorCode get_text(const char* const fileName, struct textData* text)
 {
@@ -18,23 +19,43 @@ enum errorCode get_text(const char* const fileName, struct textData* text)
     enum errorCode error = NO_ERRORS;
     text->bufferSize = get_file_size(file, &error) + 2;
 
-    if (error) return error;
+    if (error)
+    {
+        fclose(file);
+        return error;
+    }
 
     text->bufferName = get_file(file, text->bufferSize - 2, &error);
 
-    if (error) return error;
+    if (error)
+    {
+        fclose(file);
+        return error;
+    }
 
     text->linesCount = char_count(text->bufferName, '\n', &error);
 
-    if (error) return error;
+    if (error)
+    {
+        fclose(file);
+        return error;
+    }
 
     error = get_lines(text);
 
-    if (error) return error;
+    if (error)
+    {
+        fclose(file);
+        return error;
+    }
 
     error = char_replace(text->bufferName, '\n', '\0');
 
-    if (error) return error;
+    if (error)
+    {
+        fclose(file);
+        return error;
+    }
 
     return NO_ERRORS;
 }
@@ -183,4 +204,39 @@ enum errorCode output_text(const struct textData* text)
     }
 
     return NO_ERRORS;
+}
+
+void print_error(FILE* stream, enum errorCode error)
+{
+    switch (error)
+    {
+    case NO_ERRORS:
+        break;
+
+    case FILE_NOT_OPENED:
+        color_fprintf(COLOR_RED, STYLE_BOLD, stream, "Error: ");
+        fprintf(stream, "File not opened!\n");
+        break;
+    
+    case FILE_BAD_DESCRIPTOR:
+        break;
+    
+    case FILE_SIZE_ZERO:
+        break;
+
+    case NO_MEMORY:
+        break;
+
+    case ERROR_IN_FILE:
+        break;
+
+    case NO_BUFFER:
+        break;
+
+    case NO_TEXT_STRUCT:
+        break;
+
+    default:
+        break;
+    }
 }
