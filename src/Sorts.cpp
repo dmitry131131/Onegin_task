@@ -85,19 +85,37 @@ char** min_string_reverse(char** array, size_t size)
 
 int strcmp_reverse(const char* s1, const char* s2)
 {
-    char* s1Rev = strdup(s1);
-    char* s2Rev = strdup(s2);
-    int res = 0;
+    size_t len1 = 0, len2 = 0, min = 0;
 
-    str_reverse(s1Rev);
-    str_reverse(s2Rev);
+    while (*s1 != '\0')
+    {
+        len1++;
+        s1++;
+    }
+    s1--;
 
-    res = strcmp(s1Rev, s2Rev);
+    while (*s2 != '\0')
+    {
+        len2++;
+        s2++;
+    }
+    s2--;
 
-    free(s1Rev);
-    free(s2Rev);
+    if (len1 < len2) min = len1;
+    else min = len2;
 
-    return res;
+    for (size_t i = 0; i < min; i++)
+    {
+        if (*s1 < *s2) return -1;
+        if (*s1 > *s2) return 1;
+        s1--;
+        s2--;
+    }
+
+    if (len1 > len2) return 1;
+    else if (len1 < len2) return -1;
+
+    return 0;
 }
 
 char* str_reverse(char* string)
