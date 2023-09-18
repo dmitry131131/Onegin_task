@@ -15,4 +15,5 @@ enum errorCode {
     NO_BUFFER,
     NO_TEXT_STRUCT
 };
+
 #endif

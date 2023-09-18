@@ -16,7 +16,7 @@ int cmp_strings(const void* firstStr, const void* secondStr);
  * @param [in,out] array sorted array
  * @param [in]     count count of lines
 */
-void choice_sort(char** array, size_t count);
+enum errorCode choice_sort(char** array, size_t count);
 /**
  * @brief function find minimal element in string array
  * @param [in] array array where we fing min element
@@ -49,6 +49,6 @@ char** min_string_reverse(char** array, size_t size);
  * @param [in,out] array sorted array
  * @param [in]     count count of lines
 */
-void choice_sort_reverse(char** array, size_t count);
+enum errorCode choice_sort_reverse(char** array, size_t count);
 
 #endif

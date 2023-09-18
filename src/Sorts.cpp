@@ -5,11 +5,14 @@
 #include <string.h>
 #include <stdlib.h>
 
+#include "Error.h"
 #include "Sorts.h"
 
 
-void choice_sort(char** array, size_t count)
+enum errorCode choice_sort(char** array, size_t count)
 {
+    if (!array) return NO_BUFFER;
+
     char* temp     = NULL;
     char** min_ptr = NULL;
 
@@ -18,13 +21,19 @@ void choice_sort(char** array, size_t count)
         temp = *(array + i);
         min_ptr = min_string(array + i, count - i);
 
-        *(array + i) = *min_ptr;
-        *min_ptr     = temp;
+        if (!min_ptr) return NO_BUFFER;
+
+        array[i] = *min_ptr;
+        *min_ptr = temp;
     }
+
+    return NO_ERRORS;
 }
 
-void choice_sort_reverse(char** array, size_t count)
+enum errorCode choice_sort_reverse(char** array, size_t count)
 {
+    if (!array) return NO_BUFFER;
+
     char* temp     = NULL;
     char** min_ptr = NULL;
 
@@ -33,13 +42,19 @@ void choice_sort_reverse(char** array, size_t count)
         temp = *(array + i);
         min_ptr = min_string_reverse(array + i, count - i);
 
+        if (!min_ptr) return NO_BUFFER;
+
         *(array + i) = *min_ptr;
         *min_ptr     = temp;
     }
+
+    return NO_ERRORS;
 }
 
 char** min_string(char** array, size_t size)
 {
+    if (!array) return NULL;
+
     char** min = array;
     for (size_t i = 0; i < size; i++)
     {
@@ -54,6 +69,8 @@ char** min_string(char** array, size_t size)
 
 char** min_string_reverse(char** array, size_t size)
 {
+    if (!array) return NULL;
+
     char** min = array;
     for (size_t i = 0; i < size; i++)
     {
@@ -85,6 +102,8 @@ int strcmp_reverse(const char* s1, const char* s2)
 
 char* str_reverse(char* string)
 {
+    if (!string) return NULL;
+    
     char* str = string;
     size_t size = strlen(string);
 
