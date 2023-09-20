@@ -44,6 +44,7 @@ $(TARGET) : $(objects) $(MainObject) $(LibObjects)
 
 clean :
 	rm $(TARGET) $(BuildFolder)/*.o
+	cd Color_console_output && make clean
 
 folder :
 	mkdir -p $(BuildFolder)
