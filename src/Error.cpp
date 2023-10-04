@@ -2,7 +2,6 @@
 #include <stdlib.h>
 
 #include "Error.h"
-
 #include "Color_output.h"
 
 void print_error_message(FILE* stream, enum errorCode error)

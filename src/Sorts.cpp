@@ -3,6 +3,7 @@
  * @brief Sort functions sources
 */
 #include <string.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "Error.h"
