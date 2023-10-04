@@ -178,7 +178,7 @@ enum errorCode output_text(const struct textData* text)
 {
     if (!text) return NO_TEXT_STRUCT;
 
-    for(size_t i = 0; i < text->linesCount; i++)
+    for(size_t i = 0; i < text->linesCount + 1; i++)
     {
         puts(text->linesPtr[i]);
     }
