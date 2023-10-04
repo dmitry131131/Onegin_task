@@ -22,14 +22,20 @@ Main = main.cpp
 
 LibObjects = Color_console_output/build/Color_output.o
 
-.PHONY : all clean folder
-
-all : folder $(TARGET)
-
 Source = $(addprefix $(SourcePrefix), $(Sources))
 MainObject = $(patsubst %.cpp, $(BuildPrefix)%.o, $(Main))
 
 objects = $(patsubst $(SourcePrefix)%.cpp, $(BuildPrefix)%.o, $(Source))
+
+.PHONY : all clean folder lib
+
+all : folder $(TARGET)
+
+lib: CXXFLAGS = -O3
+lib: folder prepare $(objects) $(LibObjects)
+
+prepare : 
+	cd Color_console_output && make
 
 $(BuildPrefix)%.o : $(SourcePrefix)%.cpp
 	cd Color_console_output && make
