@@ -16,15 +16,15 @@ enum errorCode {
     NO_TEXT_STRUCT
 };
 
-#define CHECK_ERR_MAIN(code) do{    \
-    err = code;                     \
-                                    \
-    if (err)                        \
-    {                               \
-        print_error(stdout, err);   \
-        remove_text(&text);         \
-        return 0;                   \
-    }                               \
+#define CHECK_ERR_MAIN(code) do{            \
+    err = code;                             \
+                                            \
+    if (err)                                \
+    {                                       \
+        print_error_message(stdout, err);   \
+        remove_text(&text);                 \
+        return 0;                           \
+    }                                       \
 } while(0)
 
 
@@ -37,6 +37,13 @@ enum errorCode {
         return error;               \
     }                               \
 } while(0)
+
+/**
+ * @brief Function print error value
+ * @param [in] stream output stream
+ * @param [in] error  error code
+*/
+void print_error_message(FILE* stream, enum errorCode error);
 
 
 #endif

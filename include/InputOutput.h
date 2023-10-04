@@ -64,12 +64,7 @@ enum errorCode char_replace(char* buffer, char findSym, char repSym);
  * @return Error code 
 */
 enum errorCode output_text(const struct textData* text);
-/**
- * @brief Function print error value
- * @param [in] stream output stream
- * @param [in] error  error code
-*/
-void print_error(FILE* stream, enum errorCode error);
+
 /**
  * @brief Function print text buffer
  * @param [in] text text buffer

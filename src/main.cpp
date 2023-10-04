@@ -30,7 +30,7 @@ int main()
 
     CHECK_ERR_MAIN(print_buffer(&text));
 
-    print_error(stdout, err);
+    print_error_message(stdout, err);
     remove_text(&text);
 
     return 0;
