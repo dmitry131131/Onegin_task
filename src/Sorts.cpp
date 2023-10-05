@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "Error.h"
+#include "OneginError.h"
 #include "Sorts.h"
 
 

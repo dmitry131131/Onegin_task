@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <assert.h>
 
-#include "Error.h"
+#include "OneginError.h"
 #include "InputOutput.h"
 #include "Color_output.h"
 
