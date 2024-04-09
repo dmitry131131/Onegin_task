@@ -29,10 +29,11 @@ objects = $(patsubst $(SourcePrefix)%.cpp, $(BuildPrefix)%.o, $(Source))
 
 .PHONY : all clean folder lib
 
-all : folder $(TARGET)
+all : lib
 
 lib: CXXFLAGS = -O3
 lib: folder prepare $(objects) $(LibObjects)
+	cd build && ar -rc libOnegin_task.a *.o ../Color_console_output/build/*.o 
 
 prepare : 
 	cd Color_console_output && make
@@ -49,7 +50,8 @@ $(TARGET) : $(objects) $(MainObject) $(LibObjects)
 	@$(CXX) $(CXXFLAGS) $(Include) $^ -o $@
 
 clean :
-	rm $(TARGET) $(BuildFolder)/*.o
+	rm $(BuildFolder)/*.o
+	rm $(BuildFolder)/*.a
 	cd Color_console_output && make clean
 
 folder :
